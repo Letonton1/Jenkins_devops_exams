@@ -10,25 +10,21 @@ pipeline {
     stage(' Docker Build') { // docker build image stage
       steps {
         script {
-          sh ''
-          '
+          sh '''
           docker compose down
           docker compose up - d
           sleep 20
-            ''
-          '
+            '''
         }
       }
     }
     stage('Test Acceptance') { // we launch the curl command to validate that the container responds to the request
       steps {
         script {
-          sh ''
-          '
+          sh '''
           curl http: //localhost:8080/api/v1/movies/docs
             curl http: //localhost:8080/api/v1/casts/docs
-            ''
-          '
+            '''
         }
       }
     }
@@ -39,14 +35,13 @@ pipeline {
       }
       steps {
         script {
-          sh ''
-          '
+          sh '''
           docker login - u $DOCKER_ID - p $DOCKER_PASS
           docker tag jenkins_devops_exams - movie_service $DOCKER_ID / movie - service: $DOCKER_TAG
           docker tag jenkins_devops_exams - cast_service $DOCKER_ID / cast - service: $DOCKER_TAG
           docker push $DOCKER_ID / movie - service: $DOCKER_TAG
-          docker push $DOCKER_ID / cast - service: $DOCKER_TAG ''
-          '
+          docker push $DOCKER_ID / cast - service: $DOCKER_TAG 
+          '''
         }
       }
     }
@@ -56,8 +51,7 @@ pipeline {
       }
       steps {
         script {
-          sh ''
-          '
+          sh '''
           rm - Rf.kube
           mkdir.kube
           cat $KUBECONFIG > .kube / config
@@ -73,8 +67,8 @@ pipeline {
           values.yml
           sed - i "s+repository.*+repository: ${DOCKER_ID}/cast-service+g"
           values.yml
-          helm upgrade--install cast - service--values = values.yml--namespace dev. / charts ''
-          '
+          helm upgrade--install cast - service--values = values.yml--namespace dev. / charts 
+          '''
         }
       }
     }
