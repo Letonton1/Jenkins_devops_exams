@@ -58,13 +58,16 @@ pipeline {
                         mkdir .kube
                         cat $KUBECONFIG > .kube/config
                         cp charts/values.yaml values.yml
+
                         sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                         sed -i "s+repository.*+repository: ${DOCKER_ID}/movie-service+g" values.yml
+                        sed -i "s+nodePort.*+nodePort: 30007+g" values.yml
                         helm upgrade --install movie-service --values=values.yml --namespace dev ./charts
 
                         cp charts/values.yaml values.yml
                         sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                         sed -i "s+repository.*+repository: ${DOCKER_ID}/cast-service+g" values.yml
+                        sed -i "s+nodePort.*+nodePort: 30008+g" values.yml
                         helm upgrade --install cast-service --values=values.yml --namespace dev ./charts
                     '''
                 }
@@ -82,13 +85,16 @@ pipeline {
                         mkdir .kube
                         cat $KUBECONFIG > .kube/config
                         cp charts/values.yaml values.yml
+
                         sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                         sed -i "s+repository.*+repository: ${DOCKER_ID}/movie-service+g" values.yml
+                        sed -i "s+nodePort.*+nodePort: 30009+g" values.yml
                         helm upgrade --install movie-service --values=values.yml --namespace qa ./charts
 
                         cp charts/values.yaml values.yml
                         sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                         sed -i "s+repository.*+repository: ${DOCKER_ID}/cast-service+g" values.yml
+                        sed -i "s+nodePort.*+nodePort: 30010+g" values.yml
                         helm upgrade --install cast-service --values=values.yml --namespace qa ./charts
                     '''
                 }
@@ -106,13 +112,16 @@ pipeline {
                         mkdir .kube
                         cat $KUBECONFIG > .kube/config
                         cp charts/values.yaml values.yml
+
                         sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                         sed -i "s+repository.*+repository: ${DOCKER_ID}/movie-service+g" values.yml
+                        sed -i "s+nodePort.*+nodePort: 30011+g" values.yml
                         helm upgrade --install movie-service --values=values.yml --namespace staging ./charts
 
                         cp charts/values.yaml values.yml
                         sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                         sed -i "s+repository.*+repository: ${DOCKER_ID}/cast-service+g" values.yml
+                        sed -i "s+nodePort.*+nodePort: 30012+g" values.yml
                         helm upgrade --install cast-service --values=values.yml --namespace staging ./charts
                     '''
                 }
@@ -136,13 +145,16 @@ pipeline {
                         mkdir .kube
                         cat $KUBECONFIG > .kube/config
                         cp charts/values.yaml values.yml
+
                         sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                         sed -i "s+repository.*+repository: ${DOCKER_ID}/movie-service+g" values.yml
+                        sed -i "s+nodePort.*+nodePort: 30013+g" values.yml
                         helm upgrade --install movie-service --values=values.yml --namespace prod ./charts
 
                         cp charts/values.yaml values.yml
                         sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
                         sed -i "s+repository.*+repository: ${DOCKER_ID}/cast-service+g" values.yml
+                        sed -i "s+nodePort.*+nodePort: 30014+g" values.yml
                         helm upgrade --install cast-service --values=values.yml --namespace prod ./charts
                     '''
                 }
