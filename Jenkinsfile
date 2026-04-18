@@ -12,7 +12,7 @@ pipeline {
         script {
           sh '''
           docker compose down
-          docker compose up - d
+          docker compose up -d
           sleep 20
             '''
         }
@@ -73,12 +73,4 @@ pipeline {
       }
     }
   }
-  post {
-    failure {
-        echo "This will run if the job failed"
-        mail to: "vgcehill@gmail.com",
-             subject: "${env.JOB_NAME} - Build # ${env.BUILD_ID} has failed",
-             body: "For more info on the pipeline failure, check out the console output at ${env.BUILD_URL}"
-    }
- }	
 }
