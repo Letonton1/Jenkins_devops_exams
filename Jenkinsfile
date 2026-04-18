@@ -52,23 +52,19 @@ stages {
     steps {
       script {
       sh '''
-     steps {
-                script {
-                    sh '''
-                        rm -Rf .kube
-                        mkdir .kube
-                        cat $KUBECONFIG > .kube/config
+          rm -Rf .kube
+          mkdir .kube
+          cat $KUBECONFIG > .kube/config
+          cp charts/values.yaml values.yml
+          sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
+          sed -i "s+repository.*+repository: ${DOCKER_ID}/movie-service+g" values.yml
+          helm upgrade --install movie-service --values=values.yml --namespace dev ./charts
 
-                        cp charts/values.yaml values.yml
-                        sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                        sed -i "s+repository.*+repository: ${DOCKER_ID}/movie-service+g" values.yml
-                        helm upgrade --install movie-service --values=values.yml --namespace dev ./charts
-
-                        cp charts/values.yaml values.yml
-                        sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                        sed -i "s+repository.*+repository: ${DOCKER_ID}/cast-service+g" values.yml
-                        helm upgrade --install cast-service --values=values.yml --namespace dev ./charts
-                    '''
+           cp charts/values.yaml values.yml
+           sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
+           sed -i "s+repository.*+repository: ${DOCKER_ID}/cast-service+g" values.yml
+           helm upgrade --install cast-service --values=values.yml --namespace dev ./charts
+          '''
       }
     }
   }
